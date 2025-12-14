@@ -1,4 +1,5 @@
 /*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
+@layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
@@ -6,9 +7,8 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-500: oklch(63.7% 0.237 25.331);
-    --default-transition-duration: 150ms;
-    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -162,14 +162,43 @@
   }
 }
 @layer utilities {
+  .bg-orange {
+    background-color: #f26a4f;
+  }
   .font-gotham {
     font-family: "Gotham", sans-serif;
+  }
+  .font-black {
+    --tw-font-weight: var(--font-weight-black);
+    font-weight: var(--font-weight-black);
+  }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
   }
 }
 @font-face {
   font-family: 'Gotham';
   src: url('/wwwroot/fonts/gotham_book.otf') format('opentype');
-  font-weight: normal;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('/wwwroot/fonts/gotham_light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('/wwwroot/fonts/gotham_bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('/wwwroot/fonts/gotham_black.otf') format('opentype');
+  font-weight: 900;
   font-style: normal;
 }
 .valid.modified:not([type=checkbox]) {
@@ -246,4 +275,15 @@ code {
 }
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-font-weight: initial;
+    }
+  }
 }

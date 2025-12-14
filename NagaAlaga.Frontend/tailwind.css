@@ -1,4 +1,13 @@
 @import "tailwindcss";
+
+/* Color Palette*/
+@theme inline {
+    --color-violet: #472f85;
+    --color-grey: #4a5565;
+    --color-orange: #f26a4f;
+    --color-pastel: #ffe8e2;
+}
+
 @theme inline {
     --font-gotham: "Gotham", sans-serif;
 }
@@ -8,12 +17,30 @@
 @font-face {
     font-family: 'Gotham';
     src: url('/wwwroot/fonts/gotham_book.otf') format('opentype');
-    font-weight: normal;
+    font-weight: 400;
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Gotham';
+    src: url('/wwwroot/fonts/gotham_light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'Gotham';
+    src: url('/wwwroot/fonts/gotham_bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'Gotham';
+    src: url('/wwwroot/fonts/gotham_black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
 
 
 
