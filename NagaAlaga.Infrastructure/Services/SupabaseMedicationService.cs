@@ -14,7 +14,7 @@ namespace NagaAlaga.Infrastructure.Services
             _client = client;
         }
 
-        public async Task<IReadOnlyList<MedicationDto>> GetMedicationsAsync(Guid profileId)
+        public async Task<List<MedicationDto>> GetMedicationsAsync(Guid profileId)
         {
             var result = await _client
                 .From<SupabaseMedication>()
@@ -34,7 +34,7 @@ namespace NagaAlaga.Infrastructure.Services
             }).ToList();
         }
 
-        public async Task<IReadOnlyList<MedicationScheduleDto>> GetSchedulesAsync(Guid medicationId)
+        public async Task<List<MedicationScheduleDto>> GetSchedulesAsync(Guid medicationId)
         {
             var result = await _client
                 .From<SupabaseMedicationSchedule>()
@@ -52,7 +52,7 @@ namespace NagaAlaga.Infrastructure.Services
             }).ToList();
         }
 
-        public async Task<IReadOnlyList<MedicationScheduleDayDto>> GetScheduleDaysAsync(Guid scheduleId)
+        public async Task<List<MedicationScheduleDayDto>> GetScheduleDaysAsync(Guid scheduleId)
         {
             var result = await _client
                 .From<SupabaseMedicationScheduleDay>()
@@ -67,7 +67,7 @@ namespace NagaAlaga.Infrastructure.Services
             }).ToList();
         }
 
-        public async Task<IReadOnlyList<MedicationTimeDto>> GetTimesAsync(Guid medicationId)
+        public async Task<List<MedicationTimeDto>> GetTimesAsync(Guid medicationId)
         {
             var result = await _client
                 .From<SupabaseMedicationTime>()
@@ -82,7 +82,7 @@ namespace NagaAlaga.Infrastructure.Services
             }).ToList();
         }
 
-        public async Task<IReadOnlyList<MedicationLogDto>> GetLogsForDateAsync(Guid medicationId, DateOnly date)
+        public async Task<List<MedicationLogDto>> GetLogsForDateAsync(Guid medicationId, DateOnly date)
         {
             var result = await _client
                 .From<SupabaseMedicationLog>()

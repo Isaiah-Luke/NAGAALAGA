@@ -1,7 +1,7 @@
 ﻿using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
 
-namespace NagaAlaga.Infrastructure.Supabase.Models
+namespace NagaAlaga.Infrastructure.Models
 {
     [Table("medications")]
     internal sealed class SupabaseMedication : BaseModel
