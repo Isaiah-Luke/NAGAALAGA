@@ -8,6 +8,7 @@ namespace NagaAlaga.Domain.Enums
     {
         Taken = 0,
         Missed = 1,
-        Skipped = 2
+        Skipped = 2,
+        Pending = 3
     }
 }
