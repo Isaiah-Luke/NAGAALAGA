@@ -1,0 +1,103 @@
+﻿@page "/complete-profile"
+@inject IAuthService Auth
+@inject ProfileService ProfileService
+@inject NavigationManager Nav
+
+<h3>Complete Your Profile</h3>
+
+@if (profile == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="profile" OnValidSubmit="SaveProfile">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label>First Name</label>
+            <InputText @bind-Value="profile.FirstName" />
+        </div>
+
+        <div>
+            <label>Middle Name</label>
+            <InputText @bind-Value="profile.MiddleName" />
+        </div>
+
+        <div>
+            <label>Last Name</label>
+            <InputText @bind-Value="profile.LastName" />
+        </div>
+
+        <div>
+            <label>Suffix</label>
+            <InputText @bind-Value="profile.Suffix" />
+        </div>
+
+        <div>
+            <label>Birthdate</label>
+            <InputDate @bind-Value="profile.Birthdate" />
+        </div>
+
+        <div>
+            <label>Gender</label>
+            <InputSelect @bind-Value="profile.Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </InputSelect>
+        </div>
+
+        <div>
+            <label>Blood Type</label>
+            <InputSelect @bind-Value="profile.BloodType">
+                <option value="">Select</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="AB">AB</option>
+                <option value="O">O</option>
+            </InputSelect>
+        </div>
+
+        <button type="submit">Save Profile</button>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <p style="color:green">@message</p>
+    }
+}
+
+@code {
+    private ProfileDto? profile;
+    private string? message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        profile = await Auth.GetCurrentProfileAsync();
+
+        if (profile == null)
+        {
+            // No user signed in → redirect to login
+            Nav.NavigateTo("/login");
+        }
+    }
+
+    private async Task SaveProfile()
+    {
+        if (profile == null) return;
+
+        try
+        {
+            await ProfileService.UpdateProfileAsync(profile);
+            message = "Profile updated successfully!";
+            // Optionally redirect to dashboard
+            Nav.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            message = $"Error saving profile: {ex.Message}";
+        }
+    }
+}

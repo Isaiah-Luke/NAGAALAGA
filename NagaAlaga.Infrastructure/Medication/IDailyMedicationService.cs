@@ -1,6 +1,6 @@
 ﻿using NagaAlaga.Domain.Medication;
 
-namespace NagaAlaga.Infrastructure.Services
+namespace NagaAlaga.Infrastructure.Medication
 {
     public interface IDailyMedicationService
     {

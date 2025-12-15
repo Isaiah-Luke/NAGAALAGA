@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject IAuthService Auth
+@inject NavigationManager Nav
 
 <PageTitle>Home</PageTitle>
 
@@ -9,3 +11,14 @@
 </div>
 
 Gotham
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        if (!Auth.IsAuthenticated)
+        {
+            Nav.NavigateTo("/login");
+        }
+    }
+}

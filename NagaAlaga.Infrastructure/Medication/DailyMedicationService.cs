@@ -1,10 +1,7 @@
 ﻿using NagaAlaga.Domain.Enums;
 using NagaAlaga.Domain.Medication;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NagaAlaga.Infrastructure.Services
+namespace NagaAlaga.Infrastructure.Medication
 {
     public sealed class DailyMedicationService : IDailyMedicationService
     {

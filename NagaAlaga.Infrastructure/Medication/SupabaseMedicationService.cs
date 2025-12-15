@@ -3,7 +3,7 @@ using NagaAlaga.Domain.Medication;
 using NagaAlaga.Infrastructure.Models;
 using Supabase;
 
-namespace NagaAlaga.Infrastructure.Services
+namespace NagaAlaga.Infrastructure.Medication
 {
     public sealed class SupabaseMedicationService : ISupabaseMedicationService
     {

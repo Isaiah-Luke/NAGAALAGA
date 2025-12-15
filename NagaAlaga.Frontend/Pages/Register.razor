@@ -1,0 +1,129 @@
+﻿@page "/register"
+@inject IAuthService Auth
+@inject ProfileService ProfileService
+@inject NavigationManager Nav
+
+<h3>Create Account</h3>
+
+<EditForm Model="registerModel" OnValidSubmit="RegisterUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <h4>Login Details</h4>
+    <div>
+        <label>Email</label>
+        <InputText @bind-Value="registerModel.Email" />
+    </div>
+    <div>
+        <label>Password</label>
+        <InputText @bind-Value="registerModel.Password" type="password" />
+    </div>
+
+    <h4>Profile Details</h4>
+    <div>
+        <label>First Name</label>
+        <InputText @bind-Value="registerModel.FirstName" />
+    </div>
+    <div>
+        <label>Middle Name</label>
+        <InputText @bind-Value="registerModel.MiddleName" />
+    </div>
+    <div>
+        <label>Last Name</label>
+        <InputText @bind-Value="registerModel.LastName" />
+    </div>
+    <div>
+        <label>Suffix</label>
+        <InputText @bind-Value="registerModel.Suffix" />
+    </div>
+    <div>
+        <label>Birthdate</label>
+        <InputDate @bind-Value="registerModel.Birthdate" />
+    </div>
+    <div>
+        <label>Gender</label>
+        <InputSelect @bind-Value="registerModel.Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </InputSelect>
+    </div>
+    <div>
+        <label>Blood Type</label>
+        <InputSelect @bind-Value="registerModel.BloodType">
+            <option value="">Select</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="AB">AB</option>
+            <option value="O">O</option>
+        </InputSelect>
+    </div>
+
+    <button type="submit">Sign Up</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(error))
+{
+    <p style="color:red">@error</p>
+}
+
+@code {
+    private RegisterModel registerModel = new();
+
+    private string? error;
+
+    private async Task RegisterUser()
+    {
+        try
+        {
+            // 1️⃣ Sign up the user
+            var user = await Auth.SignUpAsync(registerModel.Email, registerModel.Password);
+
+            if (user == null)
+            {
+                error = "Sign up failed.";
+                return;
+            }
+            
+            await Task.Delay(2000);
+            // 2️⃣ Immediately update the profile
+            var profile = new ProfileDto
+            {
+                Id = Guid.Parse(user.Id),
+                FirstName = registerModel.FirstName,
+                MiddleName = registerModel.MiddleName,
+                LastName = registerModel.LastName,
+                Suffix = registerModel.Suffix,
+                Birthdate = registerModel.Birthdate,
+                Alive = true,
+                Gender = registerModel.Gender,
+                BloodType = registerModel.BloodType
+            };
+
+            await ProfileService.UpdateProfileAsync(profile);
+
+            // 3️⃣ Redirect to dashboard or home page
+            Nav.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            error = $"Sign up error: {ex.Message}";
+        }
+    }
+
+    private class RegisterModel
+    {
+        // Auth
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+
+        // Profile
+        public string FirstName { get; set; } = string.Empty;
+        public string? MiddleName { get; set; }
+        public string LastName { get; set; } = string.Empty;
+        public string? Suffix { get; set; }
+        public DateOnly Birthdate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+        public Gender Gender { get; set; } = Gender.Male;
+        public BloodType? BloodType { get; set; }
+    }
+}

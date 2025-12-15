@@ -1,8 +1,6 @@
 ﻿using NagaAlaga.Domain.Profiles;
 using NagaAlaga.Infrastructure.Mappers;
 using NagaAlaga.Infrastructure.Models;
-using NagaAlaga.Infrastructure.Services;
-using Supabase;
 using Supabase.Gotrue;
 
 namespace NagaAlaga.Infrastructure.Auth;
@@ -19,26 +17,31 @@ public sealed class AuthService : IAuthService
     public bool IsAuthenticated =>
         _supabase.Auth.CurrentUser != null;
 
+    public User? CurrentUser => _supabase.Auth.CurrentUser;
+
     // -------------------------------
     // SIGN UP
     // -------------------------------
-    public async Task<ProfileDto?> SignUpAsync(
-        string email,
-        string password,
-        ProfileDto profile)
+    /// <summary>
+    /// Signs up the user and returns the user object if successful
+    /// </summary>
+    public async Task<User?> SignUpAsync(string email, string password)
     {
-        var result = await _supabase.Auth.SignUp(email, password);
+        try
+        {
+            var result = await _supabase.Auth.SignUp(email, password);
 
-        if (result.User == null)
+            if (result.User == null)
+                return null;
+
+            // Supabase trigger will create a placeholder profile automatically
+            return result.User;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"SignUp error: {ex.Message}");
             return null;
-
-        profile.Id = Guid.Parse(result.User.Id);
-
-        await _supabase
-            .From<SupabaseProfile>()
-            .Insert(profile.ToModel());
-
-        return profile;
+        }
     }
 
     // -------------------------------
