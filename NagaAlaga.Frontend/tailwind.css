@@ -13,7 +13,10 @@
 }
 
 
+
+/*---------------*/
 /* Fonts */
+/*---------------*/
 @font-face {
     font-family: 'Gotham';
     src: url('/wwwroot/fonts/gotham_book.otf') format('opentype');
@@ -45,8 +48,9 @@
 
 
 
-
-
+/*---------------*/
+/* BLAZOR STYLES */
+/*---------------*/
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
