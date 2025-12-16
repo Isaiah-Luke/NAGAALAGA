@@ -27,21 +27,18 @@ public sealed class AuthService : IAuthService
     /// </summary>
     public async Task<User?> SignUpAsync(string email, string password)
     {
-        try
-        {
-            var result = await _supabase.Auth.SignUp(email, password);
+        var signUp = await _supabase.Auth.SignUp(email, password);
 
-            if (result.User == null)
-                return null;
-
-            // Supabase trigger will create a placeholder profile automatically
-            return result.User;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"SignUp error: {ex.Message}");
+        if (signUp.User == null)
             return null;
-        }
+
+        //SIGN IN TO GET USER SESSION
+        var signIn = await _supabase.Auth.SignIn(email, password);
+
+        if (signIn.User == null)
+            return null;
+
+        return signIn.User;
     }
 
     // -------------------------------
